@@ -7,13 +7,13 @@ USE Ventas_Tech_DB;
 
 -- CONSULTA UNO
 
-SELECT
-	MONTH(fecha_venta) AS mes,
-	SUM(cantidad * precio_unitario) AS total_facturado,
-	COUNT (*) AS Total_pedidos,
-	AVG(cantidad * precio_unitario) AS ticket_promedio
+SELECT 
+    EXTRACT(MONTH FROM fecha_venta) AS mes,
+    SUM(cantidad * precio_unitario) AS total_facturado,
+    COUNT(*) AS total_pedidos,
+    SUM(cantidad * precio_unitario) / COUNT(*) AS ticket_promedio
 FROM ventas
-GROUP BY MONTH(fecha_venta)
+GROUP BY EXTRACT(MONTH FROM fecha_venta)
 ORDER BY mes;
 
 -- CONSULTA DOS
@@ -30,12 +30,12 @@ ORDER BY total_facturado DESC;
 
 SELECT
 	id_cliente,
-	count(*) AS cantidad_pedidos,
+	COUNT(*) AS cantidad_pedidos,
 	SUM(cantidad * precio_unitario) AS total_gastado
 FROM ventas
 GROUP BY id_cliente
 HAVING COUNT (*) > 1
-ORDER BY total_gastado desc;
+ORDER BY total_gastado DESC;
 
 -- CONSULTA CUATRO
 
@@ -68,7 +68,9 @@ ORDER BY mes;
 -- EL CLIENTE 1 CONCENTRA EL 40,97% DE LA FACTURACION DEL MES 03.
 -- EL PRODUCTO 1 CONCENTRA EL 55,87% DE LA FACTURACION DEL MES 03.
 
-SELECT 
+-- CORRECCION DE LA CONSULTA UNO.
+
+--SELECT 
     EXTRACT(MONTH FROM fecha_venta) AS mes,
     SUM(cantidad * precio_unitario) AS total_facturado,
     COUNT(*) AS total_pedidos,
@@ -80,7 +82,6 @@ ORDER BY mes;
 git add m4_consultas_negocio.sql
 git commit -m "feat: agrega consulta 1 de metricas mensuales y ticket promedio"
 
-git add m4_consultas_negocio.sql
-git commit -m "feat: agrega consultas de productos mas vendidos y categorias"
-
 git push origin main
+
+git log --oneline
