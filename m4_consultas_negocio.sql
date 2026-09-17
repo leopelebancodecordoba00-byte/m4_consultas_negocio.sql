@@ -48,16 +48,19 @@ SELECT
             FROM (
                 SELECT SUM(cantidad * precio_unitario) AS total_mes
                 FROM ventas
-                GROUP BY MONTH(fecha_venta)) AS promedios)
-            THEN 'Por encima'
-        ELSE 'Por debajo'
+                GROUP BY MONTH(fecha_venta)
+            ) AS promedios
+        )
+            THEN 'por encima'
+        ELSE 'por debajo'
     END AS comparacion_promedio
 FROM (
     SELECT
         MONTH(fecha_venta) AS mes,
         SUM(cantidad * precio_unitario) AS total_facturado
     FROM ventas
-    GROUP BY MONTH(fecha_venta) AS totales_mensuales
+    GROUP BY MONTH(fecha_venta)
+) AS totales_mensuales
 ORDER BY mes;
 
 -- EL PRODUCTO 2 ES EL MAS VENDIDO, REPRESENTA EL 44,83% DEL TOTAL DE LAS UNIDADES VENDIDAS.
