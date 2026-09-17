@@ -67,3 +67,20 @@ ORDER BY mes;
 -- TODOS LOS CLIENTES REALIZARON 2 COMPRAS EN EL MES.
 -- EL CLIENTE 1 CONCENTRA EL 40,97% DE LA FACTURACION DEL MES 03.
 -- EL PRODUCTO 1 CONCENTRA EL 55,87% DE LA FACTURACION DEL MES 03.
+
+SELECT 
+    EXTRACT(MONTH FROM fecha_venta) AS mes,
+    SUM(cantidad * precio_unitario) AS total_facturado,
+    COUNT(*) AS total_pedidos,
+    SUM(cantidad * precio_unitario) / COUNT(*) AS ticket_promedio
+FROM ventas
+GROUP BY EXTRACT(MONTH FROM fecha_venta)
+ORDER BY mes;
+
+git add m4_consultas_negocio.sql
+git commit -m "feat: agrega consulta 1 de metricas mensuales y ticket promedio"
+
+git add m4_consultas_negocio.sql
+git commit -m "feat: agrega consultas de productos mas vendidos y categorias"
+
+git push origin main
